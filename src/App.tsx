@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { fetchBills } from "./api/DatabaseRequests/Requests";
 
 function App() {
+
+
+  useEffect(() => {
+    async function getBills() {
+      const fetchedBills = await fetchBills();
+      console.log(fetchedBills);
+    }
+
+    getBills();
+  }, [])
+
+
   return (
     <div className="App">
       <header className="App-header">
