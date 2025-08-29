@@ -1,46 +1,49 @@
 export interface Result {
   bill: Bill
+  billSort: BillSort
+  contextDate: string
 }
 
 export interface Bill {
+  act: Act
+  amendmentLists: AmendmentList[]
   billNo: string
-  billYear: string
   billType: string
   billTypeURI: string
-  shortTitleEn: string
-  shortTitleGa: string
+  billYear: string
+  debates: Debate[]
+  events: Event[]
+  lastUpdated: string
   longTitleEn: string
   longTitleGa: string
   method: string
   methodURI: string
+  mostRecentStage: MostRecentStage
+  originHouse: OriginHouse
+  originHouseURI: string
+  relatedDocs: RelatedDoc[]
+  shortTitleEn: string
+  shortTitleGa: string
   source: string
   sourceURI: string
-  lastUpdated: string
-  originHouseURI: string
-  originHouse: OriginHouse
-  act: Act
-  amendmentLists: AmendmentList[]
-  debates: Debate[]
-  events: Event[]
-  mostRecentStage: MostRecentStage
-  relatedDocs: RelatedDoc[]
-}
-
-export interface OriginHouse {
-  showAs: string
+  sponsors: Sponsor[]
+  stages: Stage2[]
+  status: string
+  statusURI: string
   uri: string
+  versions: Version[]
 }
 
 export interface Act {
   actNo: string
   actYear: string
   dateSigned: string
-  shortTitleEn: string
-  shortTitleGa: string
   longTitleEn: string
   longTitleGa: string
-  uri: string
+  shortTitleEn: string
+  shortTitleGa: string
   statutebookURI: string
+  uri: string
 }
 
 export interface AmendmentList {
@@ -68,14 +71,10 @@ export interface Chamber {
 
 export interface Formats {
   pdf: Pdf
-  xml: Xml
+  xml: any
 }
 
 export interface Pdf {
-  uri: string
-}
-
-export interface Xml {
   uri: string
 }
 
@@ -102,7 +101,7 @@ export interface Event {
 }
 
 export interface Event2 {
-  chamber: Chamber3
+  chamber?: Chamber3
   dates: Date[]
   eventURI: string
   showAs: string
@@ -124,17 +123,24 @@ export interface MostRecentStage {
 }
 
 export interface Event3 {
-  stageCompleted: boolean
-  stageOutcome: string
+  chamber: any
+  dates: Date2[]
+  house: any
   progressStage: number
   showAs: string
+  stageCompleted: boolean
+  stageOutcome: string
   stageURI: string
   uri: string
-  dates: Date2[]
 }
 
 export interface Date2 {
   date: string
+}
+
+export interface OriginHouse {
+  showAs: string
+  uri: string
 }
 
 export interface RelatedDoc {
@@ -144,21 +150,105 @@ export interface RelatedDoc {
 export interface RelatedDoc2 {
   date: string
   docType: string
+  formats: Formats2
   lang: string
   showAs: string
   uri: string
-  formats: Formats2
 }
 
 export interface Formats2 {
   pdf: Pdf2
-  xml: Xml2
+  xml: any
 }
 
 export interface Pdf2 {
   uri: string
 }
 
-export interface Xml2 {
+export interface Sponsor {
+  sponsor: Sponsor2
+}
+
+export interface Sponsor2 {
+  as: As
+  by: By
+  isPrimary: boolean
+}
+
+export interface As {
+  showAs: string
+  uri: any
+}
+
+export interface By {
+  showAs: any
+  uri: any
+}
+
+export interface Stage2 {
+  event: Event4
+}
+
+export interface Event4 {
+  chamber?: Chamber4
+  dates: Date3[]
+  house?: House
+  progressStage: number
+  showAs: string
+  stageCompleted: boolean
+  stageOutcome?: string
+  stageURI: string
   uri: string
+}
+
+export interface Chamber4 {
+  chamberCode: string
+  showAs: string
+  uri: string
+}
+
+export interface Date3 {
+  date: string
+}
+
+export interface House {
+  chamberCode: string
+  chamberType: string
+  houseCode: string
+  houseNo: string
+  showAs: string
+  uri: string
+}
+
+export interface Version {
+  version: Version2
+}
+
+export interface Version2 {
+  date: string
+  docType: string
+  formats: Formats3
+  lang: string
+  showAs: string
+  uri: string
+}
+
+export interface Formats3 {
+  pdf: Pdf3
+  xml: any
+}
+
+export interface Pdf3 {
+  uri: string
+}
+
+export interface BillSort {
+  actNoSort: number
+  actShortTitleEnSort: string
+  actShortTitleGaSort: string
+  actYearSort: number
+  billNoSort: number
+  billShortTitleEnSort: string
+  billShortTitleGaSort: string
+  billYearSort: number
 }
