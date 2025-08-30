@@ -25,6 +25,7 @@ import {
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
+import BillFavorite from "./BillFavorite";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
@@ -86,28 +87,6 @@ export default function BillTable() {
     setPage(0); //reset to first page
   };
 
-  function handleToggleFavorite(
-    e: React.MouseEvent<HTMLButtonElement>,
-    billNumber: string,
-    isFavorite: boolean
-  ) {
-    e.stopPropagation();
-    setBills((oldBills) =>
-      oldBills.map((bill: Bill) =>
-        bill.billNo === billNumber
-          ? { ...bill, favorite: !bill.favorite }
-          : bill,
-      ),
-    );
-
-    if(!isFavorite) {
-        console.log(`Request to add bill with number: ${billNumber} into favorites is sent`);
-    } else {
-        console.log(`Request to remove bill with number: ${billNumber} from favorites is sent`);
-    }
-
-  }
-
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
     <Paper elevation={0}>
@@ -142,13 +121,7 @@ export default function BillTable() {
                     {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
                   </TableCell>
                   <TableCell>
-                    <IconButton
-                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                        handleToggleFavorite(e, bill.billNo, bill.favorite ? true : false)
-                      }
-                    >
-                      {bill.favorite ? <Favorite /> : <FavoriteBorder />}
-                    </IconButton>
+                    <BillFavorite bill={bill} setBills={setBills} />
                   </TableCell>
                 </TableRow>
               ))}
