@@ -11,9 +11,12 @@ import { fetchBills } from "../api/DatabaseRequests/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
   Alert,
+  Box,
   CircularProgress,
   IconButton,
+  Modal,
   Paper,
+  Tab,
   Table,
   TableBody,
   TableCell,
@@ -21,6 +24,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tabs,
+  Typography,
 } from "@mui/material";
 import { FavoriteBorder } from "@mui/icons-material";
 import BillTypeFilter from "./BillTypeFilter";
@@ -33,6 +38,9 @@ export default function BillTable() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
+  // Modal & Tabs
+  const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
+  const [activeTab, setActiveTab] = useState<number>(0);
 
   // Getting all the bills from database when the component mounts
   useEffect(() => {
@@ -78,10 +86,18 @@ export default function BillTable() {
     setPage(0); //reset to first page
   };
 
+  // Handler that changes the tabs inside modal
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
+  // Clearing the tags <> inside of the text   
+  const cleanText = (text: string) => text.replace(/<[^>]*>/g, "");
+
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
     <Paper elevation={0}>
-      <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage}/>
+      <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="bill table">
           <TableHead>
@@ -102,6 +118,10 @@ export default function BillTable() {
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setSelectedBill(bill);
+                    setActiveTab(0); // default to English tab
                   }}
                 >
                   <TableCell>{bill.billNo}</TableCell>
@@ -129,6 +149,45 @@ export default function BillTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <Modal open={!!selectedBill} onClose={() => setSelectedBill(null)}>
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: window.innerWidth - 60,
+            maxWidth: 400,
+            bgcolor: "#ffffff",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 3,
+            outline: "none",
+          }}
+        >
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Bill {selectedBill?.billNo} Titles
+          </Typography>
+          <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
+            <Tab label="English" />
+            <Tab label="Gaeilge" />
+          </Tabs>
+          {activeTab === 0 && (
+            <Typography sx={{ overflow: "auto", maxHeight: 400 }}>
+              {selectedBill?.longTitleEn
+                ? cleanText(selectedBill.longTitleEn)
+                : "No English title available"}
+            </Typography>
+          )}
+          {activeTab === 1 && (
+            <Typography sx={{ overflow: "auto", maxHeight: 400 }}>
+              {selectedBill?.longTitleGa
+                ? cleanText(selectedBill.longTitleGa)
+                : "No English title available"}
+            </Typography>
+          )}
+        </Box>
+      </Modal>
     </Paper>
   );
 }

@@ -1,10 +1,10 @@
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import BillTable from "../components/BillTable";
 
 export default function BillPlatform() {
   return (
     <Container>
-      <h1>Bill platform</h1>
+      <Typography variant="h4" sx={{mt: 5}}>Bill platform</Typography>
       <BillTable />
     </Container>
   );
