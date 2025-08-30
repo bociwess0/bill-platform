@@ -6,15 +6,13 @@
  * and renders it in a Material-UI table format.
  */
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchBills } from "../api/DatabaseRequests/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
   Alert,
-  Box,
   CircularProgress,
   IconButton,
-  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -23,9 +21,9 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
 } from "@mui/material";
 import { FavoriteBorder } from "@mui/icons-material";
+import BillTypeFilter from "./BillTypeFilter";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
@@ -35,7 +33,6 @@ export default function BillTable() {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
-  const [billTypeFilter, setBillTypeFilter] = useState<string>("All");
 
   // Getting all the bills from database when the component mounts
   useEffect(() => {
@@ -68,21 +65,6 @@ export default function BillTable() {
     return <Alert severity="error">{error}</Alert>;
   }
 
-  const billTypes = [
-    "All",
-    ...Array.from(new Set(bills.map((b) => b.billType))),
-  ];
-
-  const filteredBills =
-    billTypeFilter === "All"
-      ? bills
-      : bills.filter((b) => b.billType === billTypeFilter);
-
-  function handleFilterChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setBillTypeFilter(e.target.value);
-    setPage(0); // reset to first page when filter changes
-  }
-
   // Handle page change
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -99,22 +81,7 @@ export default function BillTable() {
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
     <Paper elevation={0}>
-      <Box sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}>
-        <TextField
-          select
-          label="Filter by Bill Type"
-          value={billTypeFilter}
-          onChange={handleFilterChange}
-          size="small"
-          sx={{ minWidth: 200, textAlign: "left" }}
-        >
-          {billTypes.map((type) => (
-            <MenuItem key={type} value={type}>
-              {type}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
+      <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage}/>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="bill table">
           <TableHead>
@@ -127,7 +94,7 @@ export default function BillTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredBills
+            {bills
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((bill: Bill) => (
                 <TableRow
@@ -155,7 +122,7 @@ export default function BillTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={filteredBills.length}
+          count={bills.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
