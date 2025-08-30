@@ -4,7 +4,9 @@ import BillTable from "../components/BillTable";
 export default function BillPlatform() {
   return (
     <Container>
-      <Typography variant="h4" sx={{mt: 5}}>Bill platform</Typography>
+      <Typography variant="h4" sx={{ mt: 3 }}>
+        Bill platform
+      </Typography>
       <BillTable />
     </Container>
   );

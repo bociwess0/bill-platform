@@ -11,12 +11,9 @@ import { fetchBills } from "../api/DatabaseRequests/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
   Alert,
-  Box,
   CircularProgress,
   IconButton,
-  Modal,
   Paper,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -24,23 +21,22 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tabs,
-  Typography,
 } from "@mui/material";
 import { FavoriteBorder } from "@mui/icons-material";
 import BillTypeFilter from "./BillTypeFilter";
+import BillModal from "./BillModal";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
   const [error, setError] = useState<string | null>(null); // State variable for storing the error message
   const [loading, setLoading] = useState<boolean>(true); // State variable for controlling the loading action
 
+  // pagination states
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
-  // Modal & Tabs
+  // State that stores selected bill on the bill (row) click
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
-  const [activeTab, setActiveTab] = useState<number>(0);
 
   // Getting all the bills from database when the component mounts
   useEffect(() => {
@@ -70,7 +66,7 @@ export default function BillTable() {
 
   // If there was an error which occured while fetching the data, the error message will be shown
   if (error) {
-    return <Alert severity="error">{error}</Alert>;
+    return <Alert severity="error" sx={{mt: 3}}>{error}</Alert>;
   }
 
   // Handle page change
@@ -85,14 +81,6 @@ export default function BillTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); //reset to first page
   };
-
-  // Handler that changes the tabs inside modal
-  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
-  // Clearing the tags <> inside of the text   
-  const cleanText = (text: string) => text.replace(/<[^>]*>/g, "");
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
@@ -119,10 +107,7 @@ export default function BillTable() {
                     "&:last-child td, &:last-child th": { border: 0 },
                     cursor: "pointer",
                   }}
-                  onClick={() => {
-                    setSelectedBill(bill);
-                    setActiveTab(0); // default to English tab
-                  }}
+                  onClick={() => setSelectedBill(bill)}
                 >
                   <TableCell>{bill.billNo}</TableCell>
                   <TableCell>{bill.billType}</TableCell>
@@ -149,45 +134,10 @@ export default function BillTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
-      <Modal open={!!selectedBill} onClose={() => setSelectedBill(null)}>
-        <Box
-          sx={{
-            position: "absolute" as "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: window.innerWidth - 60,
-            maxWidth: 400,
-            bgcolor: "#ffffff",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 3,
-            outline: "none",
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Bill {selectedBill?.billNo} Titles
-          </Typography>
-          <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
-            <Tab label="English" />
-            <Tab label="Gaeilge" />
-          </Tabs>
-          {activeTab === 0 && (
-            <Typography sx={{ overflow: "auto", maxHeight: 400 }}>
-              {selectedBill?.longTitleEn
-                ? cleanText(selectedBill.longTitleEn)
-                : "No English title available"}
-            </Typography>
-          )}
-          {activeTab === 1 && (
-            <Typography sx={{ overflow: "auto", maxHeight: 400 }}>
-              {selectedBill?.longTitleGa
-                ? cleanText(selectedBill.longTitleGa)
-                : "No English title available"}
-            </Typography>
-          )}
-        </Box>
-      </Modal>
+      <BillModal
+        selectedBill={selectedBill}
+        setSelectedBill={setSelectedBill}
+      />
     </Paper>
   );
 }
