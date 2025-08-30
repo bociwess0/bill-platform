@@ -1,12 +1,10 @@
-import logo from "./logo.svg";
 import "./App.css";
-import BillTable from "./components/BillTable";
+import BillPlatform from "./ui/BillPlatform";
 
 function App() {
-
   return (
     <div className="App">
-      <BillTable />
+      <BillPlatform />
     </div>
   );
 }
