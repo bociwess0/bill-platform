@@ -32,6 +32,7 @@ export interface Bill {
   statusURI: string;
   uri: string;
   versions: Version[];
+  favorite?: boolean
 }
 
 export interface Act {

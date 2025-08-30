@@ -22,7 +22,7 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { FavoriteBorder } from "@mui/icons-material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
 
@@ -66,7 +66,11 @@ export default function BillTable() {
 
   // If there was an error which occured while fetching the data, the error message will be shown
   if (error) {
-    return <Alert severity="error" sx={{mt: 3}}>{error}</Alert>;
+    return (
+      <Alert severity="error" sx={{ mt: 3 }}>
+        {error}
+      </Alert>
+    );
   }
 
   // Handle page change
@@ -81,6 +85,28 @@ export default function BillTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); //reset to first page
   };
+
+  function handleToggleFavorite(
+    e: React.MouseEvent<HTMLButtonElement>,
+    billNumber: string,
+    isFavorite: boolean
+  ) {
+    e.stopPropagation();
+    setBills((oldBills) =>
+      oldBills.map((bill: Bill) =>
+        bill.billNo === billNumber
+          ? { ...bill, favorite: !bill.favorite }
+          : bill,
+      ),
+    );
+
+    if(!isFavorite) {
+        console.log(`Request to add bill with number: ${billNumber} into favorites is sent`);
+    } else {
+        console.log(`Request to remove bill with number: ${billNumber} from favorites is sent`);
+    }
+
+  }
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
@@ -116,8 +142,12 @@ export default function BillTable() {
                     {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
                   </TableCell>
                   <TableCell>
-                    <IconButton>
-                      <FavoriteBorder />
+                    <IconButton
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                        handleToggleFavorite(e, bill.billNo, bill.favorite ? true : false)
+                      }
+                    >
+                      {bill.favorite ? <Favorite /> : <FavoriteBorder />}
                     </IconButton>
                   </TableCell>
                 </TableRow>
