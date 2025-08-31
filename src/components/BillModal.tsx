@@ -7,7 +7,7 @@
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Bill } from "../Interfaces/Interface";
-import { tabStyle } from "../style/styles";
+import { modalBox, tabStyle } from "../style/styles";
 
 interface Props {
   selectedBill: Bill | null;
@@ -35,19 +35,7 @@ export default function BillModal({ selectedBill, setSelectedBill }: Props) {
       }}
     >
       <Box
-        sx={{
-          position: "absolute" as "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: window.innerWidth - 60,
-          maxWidth: 400,
-          bgcolor: "#ffffff",
-          borderRadius: 2,
-          boxShadow: 24,
-          p: 3,
-          outline: "none",
-        }}
+        sx={modalBox}
       >
         <Typography variant="h6" sx={{ mb: 2 }}>
           Bill {selectedBill?.billNo} Titles

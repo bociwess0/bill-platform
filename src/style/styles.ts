@@ -18,3 +18,17 @@ export const tabStyle = {
     color: "#d13046",
   },
 };
+
+export const modalBox = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: window.innerWidth - 60,
+  maxWidth: 400,
+  bgcolor: "#ffffff",
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 3,
+  outline: "none",
+};

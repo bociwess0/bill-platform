@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { fetchBills } from "../api/DatabaseRequests/Requests";
+import { fetchBills } from "../api/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
   Alert,
@@ -29,6 +29,8 @@ import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
 import BillFavorite from "./BillFavorite";
 import { tabStyle } from "../style/styles";
+import ErrorAlert from "../ui/ErrorAlert";
+import TableTabs from "../ui/TableTabs";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
@@ -76,11 +78,7 @@ export default function BillTable() {
 
   // If there was an error which occured while fetching the data, the error message will be shown
   if (error) {
-    return (
-      <Alert severity="error" sx={{ mt: 3, border: "1px solid #d13046" }}>
-        {error}
-      </Alert>
-    );
+    return <ErrorAlert errorMessage={error} />;
   }
 
   // Handle page change
@@ -100,25 +98,15 @@ export default function BillTable() {
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
-    <Paper elevation={0} sx={{background: "#fcfcfc"}}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-        <Tabs
-          value={tab}
-          onChange={(e, newValue) => {
-            setTab(newValue);
-            setPage(0);
-          }}
-          TabIndicatorProps={{ style: { display: "none" } }}
-          sx={tabStyle}
-        >
-          <Tab label="All Bills" value="all" />
-          <Tab
-            label={`Favorites (${favoriteBills.length})`}
-            value="favorites"
-          />
-        </Tabs>
-        <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
-      </Box>
+    <Paper elevation={0} sx={{ background: "#fcfcfc" }}>
+      <TableTabs
+        bills={bills}
+        favoriteBills={favoriteBills}
+        tab={tab}
+        setTab={setTab}
+        setBills={setBills}
+        setPage={setPage}
+      />
       {displayedBills && displayedBills.length > 0 ? (
         <TableContainer component={Paper} elevation={3}>
           <Table sx={{ minWidth: 650 }} aria-label="bill table">
@@ -188,9 +176,7 @@ export default function BillTable() {
           />
         </TableContainer>
       ) : (
-        <Alert severity="error" sx={{ mt: 3, border: "1px solid #d13046" }}>
-          There are currently no bills to show.
-        </Alert>
+        <ErrorAlert errorMessage="There are currently no bills to show." />
       )}
     </Paper>
   );

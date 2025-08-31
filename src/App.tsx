@@ -1,5 +1,5 @@
 import "./App.css";
-import BillPlatform from "./ui/BillPlatform";
+import BillPlatform from "./layout/BillPlatform";
 
 function App() {
   return (
