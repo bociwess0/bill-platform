@@ -72,7 +72,7 @@ export interface Chamber {
 
 export interface Formats {
   pdf: Pdf;
-  xml: any;
+  xml: string | null;
 }
 
 export interface Pdf {
@@ -124,9 +124,9 @@ export interface MostRecentStage {
 }
 
 export interface Event3 {
-  chamber: any;
+  chamber: Chamber;
   dates: Date2[];
-  house: any;
+  house: House;
   progressStage: number;
   showAs: string;
   stageCompleted: boolean;
@@ -159,7 +159,7 @@ export interface RelatedDoc2 {
 
 export interface Formats2 {
   pdf: Pdf2;
-  xml: any;
+  xml: string | null;
 }
 
 export interface Pdf2 {
@@ -178,12 +178,12 @@ export interface Sponsor2 {
 
 export interface As {
   showAs: string;
-  uri: any;
+  uri: string;
 }
 
 export interface By {
-  showAs: any;
-  uri: any;
+  showAs: string;
+  uri: string;
 }
 
 export interface Stage2 {
@@ -236,7 +236,7 @@ export interface Version2 {
 
 export interface Formats3 {
   pdf: Pdf3;
-  xml: any;
+  xml: string | null;
 }
 
 export interface Pdf3 {

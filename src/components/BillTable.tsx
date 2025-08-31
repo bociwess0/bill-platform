@@ -6,9 +6,10 @@
  * and renders it in a Material-UI table format.
  */
 
+import React from "react";
 import { useEffect, useState } from "react";
-import { fetchBills } from "../api/Requests";
-import { Bill } from "../Interfaces/Interface";
+import { fetchBills } from "../api/requests";
+import { Bill } from "../interfaces/interface";
 import {
   Box,
   Paper,

@@ -26,7 +26,7 @@ export const tabStyle = {
 };
 
 export const modalBoxStyle = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",

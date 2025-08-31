@@ -1,7 +1,9 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import BillTypeFilter from "../components/BillTypeFilter";
 import { tabStyle } from "../style/styles";
-import { Bill } from "../Interfaces/Interface";
+import { Bill } from "../interfaces/interface";
+import React from "react";
+
 
 interface Props {
   bills: Bill[]; //array of bills
@@ -21,7 +23,7 @@ export default function TableTabs({ bills, favoriteBills ,tab, setTab, setBills,
           setTab(newValue);
           setPage(0);
         }}
-        TabIndicatorProps={{ style: { display: "none" } }}
+        slotProps={{ indicator: { style: { display: "none" } } }}
         sx={tabStyle}
       >
         <Tab label="All Bills" value="all" />

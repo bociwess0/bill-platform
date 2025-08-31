@@ -9,7 +9,7 @@
 
 import { IconButton } from "@mui/material";
 import React from "react";
-import { Bill } from "../Interfaces/Interface";
+import { Bill } from "../interfaces/interface";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 interface Props {
