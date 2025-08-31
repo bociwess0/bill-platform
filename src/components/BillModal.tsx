@@ -10,7 +10,7 @@ import { Bill } from "../interfaces/interface";
 import { modalBoxStyle, tabStyle } from "../style/styles";
 
 interface Props {
-  selectedBill: Bill | null;
+  selectedBill: Bill | null; // Clicked bill
   setSelectedBill: React.Dispatch<React.SetStateAction<Bill | null>>; // Setter for new bills when the filter is applied
 }
 

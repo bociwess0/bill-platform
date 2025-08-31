@@ -1,5 +1,6 @@
 import "./App.css";
 import BillPlatform from "./layout/BillPlatform";
+import React from "react";
 
 function App() {
   return (

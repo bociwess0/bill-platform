@@ -1,3 +1,12 @@
+/**
+ * This file defines reusable style objects for various UI components in the application.
+ * The styles are written using Material UI's `sx` prop conventions and include
+ * responsive breakpoints for smaller screen sizes.
+ *
+ * By centralizing these styles, we ensure consistent theming, responsiveness,
+ * and easier maintenance across the app.
+ */
+
 export const tabStyle = {
   "& .MuiTab-root": {
     textTransform: "none",

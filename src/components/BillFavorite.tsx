@@ -20,7 +20,7 @@ interface Props {
   page: number; // Current pagination page
   setPage: React.Dispatch<React.SetStateAction<number>>; // Setter for page
   rowsPerPage: number; // Number of rows per page
-  tab: string; // Number of rows per page
+  tab: string; // Selected tab (all/favorites)
 }
 
 export default function BillFavorite({

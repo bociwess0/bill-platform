@@ -1,3 +1,15 @@
+/**
+ * TableTabs component provides tab-based navigation between
+ * "All Bills" and "Favorites" views, along with a bill type filter.
+ *
+ * Features:
+ * - Switches between "All Bills" and "Favorites" tabs.
+ * - Displays favorite count dynamically in the tab label.
+ * - Resets pagination when tab changes.
+ * - Integrates BillTypeFilter to allow bill filtering by type.
+ */
+
+
 import { Box, Tab, Tabs } from "@mui/material";
 import BillTypeFilter from "../components/BillTypeFilter";
 import { tabStyle } from "../style/styles";

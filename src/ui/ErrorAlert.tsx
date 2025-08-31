@@ -1,3 +1,9 @@
+/**
+ * ErrorAlert component displays an error message in a styled Material UI Alert.
+ * Shown when an error occurs (example: API fetch failure).
+ */
+
+
 import { Alert } from "@mui/material";
 import React from "react";
 
