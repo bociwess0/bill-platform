@@ -14,6 +14,7 @@ import {
   Box,
   CircularProgress,
   Paper,
+  Snackbar,
   Tab,
   Table,
   TableBody,
@@ -40,8 +41,11 @@ export default function BillTable() {
   // State that stores selected bill on the bill (row) click
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
 
-  const [tab, setTab] = useState<string>("all");
-  const favoriteBills = bills.filter((bill) => bill.favorite);
+  const [tab, setTab] = useState<string>("all"); // Controlling tabs via state
+  const favoriteBills = bills.filter((bill) => bill.favorite); // Filling the array with favorite bills
+
+  const [open, setOpen] = useState<boolean>(false); // State that shows/hides snackbar
+  const [message, setMessage] = useState<string>(""); // State that set the snackbar message
 
   // Getting all the bills from database when the component mounts
   useEffect(() => {
@@ -97,7 +101,13 @@ export default function BillTable() {
   return (
     <Paper elevation={0}>
       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
+        <Tabs
+          value={tab}
+          onChange={(e, newValue) => {
+            setTab(newValue);
+            setPage(0);
+          }}
+        >
           <Tab label="All Bills" value="all" />
           <Tab
             label={`Favorites (${favoriteBills.length})`}
@@ -106,56 +116,74 @@ export default function BillTable() {
         </Tabs>
         <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
       </Box>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="bill table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Bill Number</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Sponsor</TableCell>
-              <TableCell>Favourite</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {displayedBills
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((bill: Bill) => (
-                <TableRow
-                  key={bill.billNo}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setSelectedBill(bill)}
-                >
-                  <TableCell>{bill.billNo}</TableCell>
-                  <TableCell>{bill.billType}</TableCell>
-                  <TableCell>{bill.status}</TableCell>
-                  <TableCell>
-                    {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
-                  </TableCell>
-                  <TableCell>
-                    <BillFavorite selectedBill={bill} setBills={setBills} />
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={bills.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-      <BillModal
-        selectedBill={selectedBill}
-        setSelectedBill={setSelectedBill}
-      />
+      {displayedBills && displayedBills.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="bill table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Bill Number</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Sponsor</TableCell>
+                <TableCell>Favourite</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {displayedBills
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((bill: Bill) => (
+                  <TableRow
+                    key={bill.billNo}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setSelectedBill(bill)}
+                  >
+                    <TableCell>{bill.billNo}</TableCell>
+                    <TableCell>{bill.billType}</TableCell>
+                    <TableCell>{bill.status}</TableCell>
+                    <TableCell>
+                      {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
+                    </TableCell>
+                    <TableCell>
+                      <BillFavorite
+                        selectedBill={bill}
+                        setBills={setBills}
+                        setSnackbarOpen={setOpen}
+                        setMessage={setMessage}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={displayedBills.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <BillModal
+            selectedBill={selectedBill}
+            setSelectedBill={setSelectedBill}
+          />
+          <Snackbar
+            open={open}
+            autoHideDuration={800}
+            message={message}
+            onClose={() => setOpen(false)}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          />
+        </TableContainer>
+      ) : (
+        <Alert severity="error" sx={{ mt: 3 }}>
+          There are currently no bills to show.
+        </Alert>
+      )}
     </Paper>
   );
 }

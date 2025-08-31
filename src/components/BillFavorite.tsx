@@ -15,11 +15,15 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 interface Props {
   selectedBill: Bill; // Single bill object to render the favorite button for
   setBills: React.Dispatch<React.SetStateAction<Bill[]>>; // Setter function to update the list of bills in parent state
+  setSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>; // Setter function to show/hide snackbar
+  setMessage: React.Dispatch<React.SetStateAction<string>>; // Setter function for snackbar message
 }
 
 export default function BillFavorite({
   selectedBill,
   setBills,
+  setSnackbarOpen,
+  setMessage,
 }: Props) {
   // Handles toggling of favorite state for a given bill
   function handleToggleFavorite(
@@ -38,12 +42,20 @@ export default function BillFavorite({
       ),
     );
 
-    // Mock server call with console log (instead of real API call)
+    // Mockick server call with console log (instead of real API call) and showing the snackbar message
     if (!isFavorite) {
+      setMessage(
+        `Bill with number: ${billNumber} successfully added to favorites!`,
+      );
+      setSnackbarOpen(true);
       console.log(
         `Request to add bill with number: ${billNumber} into favorites is sent`,
       );
     } else {
+      setMessage(
+        `Bill with number: ${billNumber} successfully removed from favorites!`,
+      );
+      setSnackbarOpen(true);
       console.log(
         `Request to remove bill with number: ${billNumber} from favorites is sent`,
       );
