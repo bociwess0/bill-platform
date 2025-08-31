@@ -79,7 +79,7 @@ export default function BillFavorite({
       }
     >
       {/* Render a filled or outlined heart depending on favorite state */}
-      {selectedBill.favorite ? <Favorite /> : <FavoriteBorder />}
+      {selectedBill.favorite ? <Favorite sx={{color: "#d13046"}}/> : <FavoriteBorder sx={{color: "#d13046"}} />}
     </IconButton>
   );
 }

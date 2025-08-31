@@ -7,6 +7,7 @@
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Bill } from "../Interfaces/Interface";
+import { tabStyle } from "../style/styles";
 
 interface Props {
   selectedBill: Bill | null;
@@ -14,7 +15,6 @@ interface Props {
 }
 
 export default function BillModal({ selectedBill, setSelectedBill }: Props) {
-
   // Local state to track which tab is active. 0 = English, 1 = Gaeilge
   const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -52,7 +52,12 @@ export default function BillModal({ selectedBill, setSelectedBill }: Props) {
         <Typography variant="h6" sx={{ mb: 2 }}>
           Bill {selectedBill?.billNo} Titles
         </Typography>
-        <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 2 }}>
+        <Tabs
+          value={activeTab}
+          onChange={handleTabChange}
+          sx={{ mb: 2, ...tabStyle }}
+          TabIndicatorProps={{ style: { display: "none" } }}
+        >
           <Tab label="English" />
           <Tab label="Gaeilge" />
         </Tabs>

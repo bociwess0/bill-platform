@@ -49,7 +49,7 @@ export default function BillTypeFilter({ bills, setBills, setPage }: Props) {
         value={billTypeFilter}
         onChange={handleFilterChange}
         size="small"
-        sx={{ minWidth: 200, textAlign: "left" }}
+        sx={{ minWidth: 150, textAlign: "left" }}
       >
         {billTypes.map((type) => (
           <MenuItem key={type} value={type}>

@@ -28,6 +28,7 @@ import {
 import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
 import BillFavorite from "./BillFavorite";
+import { tabStyle } from "../style/styles";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
@@ -76,7 +77,7 @@ export default function BillTable() {
   // If there was an error which occured while fetching the data, the error message will be shown
   if (error) {
     return (
-      <Alert severity="error" sx={{ mt: 3 }}>
+      <Alert severity="error" sx={{ mt: 3, border: "1px solid #d13046" }}>
         {error}
       </Alert>
     );
@@ -99,14 +100,16 @@ export default function BillTable() {
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
-    <Paper elevation={0}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+    <Paper elevation={0} sx={{background: "#fcfcfc"}}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
         <Tabs
           value={tab}
           onChange={(e, newValue) => {
             setTab(newValue);
             setPage(0);
           }}
+          TabIndicatorProps={{ style: { display: "none" } }}
+          sx={tabStyle}
         >
           <Tab label="All Bills" value="all" />
           <Tab
@@ -117,15 +120,17 @@ export default function BillTable() {
         <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
       </Box>
       {displayedBills && displayedBills.length > 0 ? (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} elevation={3}>
           <Table sx={{ minWidth: 650 }} aria-label="bill table">
             <TableHead>
               <TableRow>
-                <TableCell>Bill Number</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Sponsor</TableCell>
-                <TableCell>Favourite</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Bill Number</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Type</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Sponsor</TableCell>
+                <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                  Favourite
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -135,8 +140,11 @@ export default function BillTable() {
                   <TableRow
                     key={bill.billNo}
                     sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
+                      "& td": { borderBottom: "1px solid #e0e0e0" },
                       cursor: "pointer",
+                      transition: "all 0.2s",
+                      ":hover": { background: "#ececec" },
+                      ":hover .MuiTableCell-root": { color: "#c93549ff" },
                     }}
                     onClick={() => setSelectedBill(bill)}
                   >
@@ -146,7 +154,7 @@ export default function BillTable() {
                     <TableCell>
                       {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
                     </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                       <BillFavorite
                         selectedBill={bill}
                         setBills={setBills}
@@ -180,7 +188,7 @@ export default function BillTable() {
           />
         </TableContainer>
       ) : (
-        <Alert severity="error" sx={{ mt: 3 }}>
+        <Alert severity="error" sx={{ mt: 3, border: "1px solid #d13046" }}>
           There are currently no bills to show.
         </Alert>
       )}
