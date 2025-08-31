@@ -7,7 +7,7 @@ export const tabStyle = {
     marginRight: "8px",
     fontWeight: 500,
     transition: "all 0.3s ease",
-    border: "1px solid #d13046",
+    border: "1px solid #305bbf",
     "@media (max-width:600px)": {
       fontSize: "13px",
       minWidth: "70px",
@@ -16,12 +16,12 @@ export const tabStyle = {
     },
   },
   "& .Mui-selected": {
-    backgroundColor: "#d13046",
+    backgroundColor: "#305bbf",
     color: "#fff !important",
   },
   "& .MuiTab-root:not(.Mui-selected)": {
     backgroundColor: "#fff",
-    color: "#d13046",
+    color: "#305bbf",
   },
 };
 
@@ -44,14 +44,14 @@ export const tableRowStyle = {
   cursor: "pointer",
   transition: "all 0.2s",
   ":hover": { background: "#f7f7f7ff" },
-  ":hover .MuiTableCell-root": { color: "#c93549ff" },
+  ":hover .MuiTableCell-root": { color: "#305bbf" },
 };
 
 export const spinnerStyle = {
   position: "absolute",
   top: "40%",
   left: "50%",
-  color: "#d13046",
+  color: "#305bbf",
 };
 
 export const billFilterStyle = {
@@ -59,13 +59,13 @@ export const billFilterStyle = {
   textAlign: "left",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "#d13046",
+      borderColor: "#305bbf",
     },
     "&:hover fieldset": {
-      borderColor: "#d13046",
+      borderColor: "#305bbf",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#d13046",
+      borderColor: "#305bbf",
     },
     "@media (max-width:600px)": {
       fontSize: "13px",
@@ -73,10 +73,10 @@ export const billFilterStyle = {
     },
   },
   "& .MuiInputLabel-root": {
-    color: "#d13046",
+    color: "#305bbf",
   },
   "& .MuiInputLabel-root.Mui-focused": {
-    color: "#d13046",
+    color: "#305bbf",
   },
   "@media (max-width:600px)": {
     minWidth: 120,
@@ -86,12 +86,20 @@ export const billFilterStyle = {
 export const paginationStyle = {
   "& .MuiTablePaginationActions-root": {
     "@media (max-width:600px)": {
-      margin: "0",
+      marginLeft: "0 !important",
     },
   },
   "& .MuiInputBase-root": {
     "@media (max-width:600px)": {
       marginRight: "10px",
+      maxWidth: "45px",
     },
   },
+};
+
+export const headingStyle = {
+  mt: { xs: 3, md: 5 },
+  mb: { xs: 3, md: 5 },
+  textAlign: "left",
+  fontSize: { xs: "25px", md: "35px" },
 };
