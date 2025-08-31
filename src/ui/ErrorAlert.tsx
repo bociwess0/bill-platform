@@ -3,15 +3,14 @@
  * Shown when an error occurs (example: API fetch failure).
  */
 
-
 import { Alert } from "@mui/material";
 import React from "react";
 
 interface Props {
-    errorMessage: string
+  errorMessage: string;
 }
 
-export default function ErrorAlert({errorMessage}: Props) {
+export default function ErrorAlert({ errorMessage }: Props) {
   return (
     <Alert
       severity="error"

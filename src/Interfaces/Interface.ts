@@ -1,10 +1,10 @@
 /**
  * Interfaces file defines all TypeScript types used throughout the Bill Platform app.
- * 
+ *
  * These interfaces represent the structure of data fetched from the bills API,
  * including bills, acts, stages, debates, sponsors, related documents, versions,
  * and metadata used for sorting and filtering.
- * 
+ *
  */
 
 export interface Result {
@@ -41,7 +41,7 @@ export interface Bill {
   statusURI: string;
   uri: string;
   versions: Version[];
-  favorite?: boolean
+  favorite?: boolean;
 }
 
 export interface Act {

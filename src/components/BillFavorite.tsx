@@ -49,13 +49,13 @@ export default function BillFavorite({
           : bill,
       );
 
-      const favoriteBills = updatedBills.filter((bill) => bill.favorite); 
+      const favoriteBills = updatedBills.filter((bill) => bill.favorite);
 
       // Check if current page is empty after update
       const startIndex = page * rowsPerPage;
       const endIndex = startIndex + rowsPerPage;
       const currentPageItems = favoriteBills.slice(startIndex, endIndex);
-      
+
       if (tab === "favorites" && currentPageItems.length === 0 && page > 0) {
         setPage(page - 1);
       }

@@ -9,13 +9,11 @@
  * - Integrates BillTypeFilter to allow bill filtering by type.
  */
 
-
 import { Box, Tab, Tabs } from "@mui/material";
 import BillTypeFilter from "../components/BillTypeFilter";
 import { tabStyle } from "../style/styles";
 import { Bill } from "../interfaces/interface";
 import React from "react";
-
 
 interface Props {
   bills: Bill[]; //array of bills
@@ -26,7 +24,14 @@ interface Props {
   setPage: React.Dispatch<React.SetStateAction<number>>; // Setter for pagination
 }
 
-export default function TableTabs({ bills, favoriteBills ,tab, setTab, setBills, setPage }: Props) {
+export default function TableTabs({
+  bills,
+  favoriteBills,
+  tab,
+  setTab,
+  setBills,
+  setPage,
+}: Props) {
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
       <Tabs

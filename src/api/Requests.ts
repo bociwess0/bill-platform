@@ -11,7 +11,8 @@ interface BillsApiResponse {
 // Function that fetches all the bills from the api
 export async function fetchBills(): Promise<Bill[]> {
   try {
-    const response: AxiosResponse<BillsApiResponse> = await axios.get("legislation");
+    const response: AxiosResponse<BillsApiResponse> =
+      await axios.get("legislation");
     const bills: Bill[] = response.data.results.map((r: Result) => r.bill);
 
     return bills;
