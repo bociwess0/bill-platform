@@ -10,12 +10,8 @@ import { useEffect, useState } from "react";
 import { fetchBills } from "../api/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
-  Alert,
-  Box,
-  CircularProgress,
   Paper,
   Snackbar,
-  Tab,
   Table,
   TableBody,
   TableCell,
@@ -23,14 +19,13 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tabs,
 } from "@mui/material";
-import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
 import BillFavorite from "./BillFavorite";
-import { tabStyle } from "../style/styles";
+import { tableRowStyle } from "../style/styles";
 import ErrorAlert from "../ui/ErrorAlert";
 import TableTabs from "../ui/TableTabs";
+import LoadingSpinner from "../ui/LoadingSpinner";
 
 export default function BillTable() {
   const [bills, setBills] = useState<Bill[]>([]); // State variable for storing all bills fetched from the database
@@ -70,9 +65,7 @@ export default function BillTable() {
   // Showing the spinner icon until the bills are fetched
   if (loading) {
     return (
-      <CircularProgress
-        sx={{ position: "absolute", top: "40%", left: "50%" }}
-      />
+      <LoadingSpinner />
     );
   }
 
@@ -117,7 +110,7 @@ export default function BillTable() {
                 <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>Sponsor</TableCell>
                 <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                  Favourite
+                  Favorite
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -127,13 +120,7 @@ export default function BillTable() {
                 .map((bill: Bill) => (
                   <TableRow
                     key={bill.billNo}
-                    sx={{
-                      "& td": { borderBottom: "1px solid #e0e0e0" },
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                      ":hover": { background: "#ececec" },
-                      ":hover .MuiTableCell-root": { color: "#c93549ff" },
-                    }}
+                    sx={tableRowStyle}
                     onClick={() => setSelectedBill(bill)}
                   >
                     <TableCell>{bill.billNo}</TableCell>

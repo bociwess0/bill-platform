@@ -7,7 +7,7 @@
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Bill } from "../Interfaces/Interface";
-import { modalBox, tabStyle } from "../style/styles";
+import { modalBoxStyle, tabStyle } from "../style/styles";
 
 interface Props {
   selectedBill: Bill | null;
@@ -35,7 +35,7 @@ export default function BillModal({ selectedBill, setSelectedBill }: Props) {
       }}
     >
       <Box
-        sx={modalBox}
+        sx={modalBoxStyle}
       >
         <Typography variant="h6" sx={{ mb: 2 }}>
           Bill {selectedBill?.billNo} Titles

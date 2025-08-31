@@ -7,6 +7,7 @@
 import { Box, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Bill } from "../Interfaces/Interface";
+import { billFilterStyle } from "../style/styles";
 
 interface Props {
   bills: Bill[]; //array of bills
@@ -49,7 +50,7 @@ export default function BillTypeFilter({ bills, setBills, setPage }: Props) {
         value={billTypeFilter}
         onChange={handleFilterChange}
         size="small"
-        sx={{ minWidth: 150, textAlign: "left" }}
+        sx={billFilterStyle}
       >
         {billTypes.map((type) => (
           <MenuItem key={type} value={type}>

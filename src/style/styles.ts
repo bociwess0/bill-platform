@@ -19,7 +19,7 @@ export const tabStyle = {
   },
 };
 
-export const modalBox = {
+export const modalBoxStyle = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
@@ -31,4 +31,41 @@ export const modalBox = {
   boxShadow: 24,
   p: 3,
   outline: "none",
+};
+
+export const tableRowStyle = {
+  "& td": { borderBottom: "1px solid #e0e0e0" },
+  cursor: "pointer",
+  transition: "all 0.2s",
+  ":hover": { background: "#f7f7f7ff" },
+  ":hover .MuiTableCell-root": { color: "#c93549ff" },
+};
+
+export const spinnerStyle = {
+  position: "absolute",
+  top: "40%",
+  left: "50%",
+  color: "#d13046",
+};
+
+export const billFilterStyle = {
+  minWidth: 150,
+  textAlign: "left",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#d13046",
+    },
+    "&:hover fieldset": {
+      borderColor: "#d13046",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#d13046",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: "#d13046",
+  },
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: "#d13046",
+  },
 };
