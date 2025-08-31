@@ -6,7 +6,7 @@
 
 import { Box, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { Bill } from "../interfaces/interface";
+import { Bill } from "../interface/interfaces";
 import { billFilterStyle } from "../style/styles";
 
 interface Props {

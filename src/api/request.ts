@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Bill, Result } from "../interfaces/interface";
+import { Bill, Result } from "../interface/interfaces";
 
 // Base API url
 axios.defaults.baseURL = "https://api.oireachtas.ie/v1/";

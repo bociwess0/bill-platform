@@ -6,7 +6,7 @@
 
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Bill } from "../interfaces/interface";
+import { Bill } from "../interface/interfaces";
 import { modalBoxStyle, tabStyle } from "../style/styles";
 
 interface Props {

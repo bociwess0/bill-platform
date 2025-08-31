@@ -12,7 +12,7 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import BillTypeFilter from "../components/BillTypeFilter";
 import { tabStyle } from "../style/styles";
-import { Bill } from "../interfaces/interface";
+import { Bill } from "../interface/interfaces";
 import React from "react";
 
 interface Props {

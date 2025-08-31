@@ -12,5 +12,16 @@ export default defineConfig([
     languageOptions: { globals: globals.browser },
   },
   tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: { react: pluginReact },
+    languageOptions: {
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    settings: {
+      react: { version: "detect" },
+    },
+    rules: {},
+    extends: [pluginReact.configs.flat.recommended],
+  },
 ]);

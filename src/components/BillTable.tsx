@@ -8,8 +8,8 @@
 
 import React from "react";
 import { useEffect, useState } from "react";
-import { fetchBills } from "../api/requests";
-import { Bill } from "../interfaces/interface";
+import { fetchBills } from "../api/request";
+import { Bill } from "../interface/interfaces";
 import {
   Box,
   Paper,
