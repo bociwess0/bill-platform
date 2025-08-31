@@ -8,6 +8,12 @@ export const tabStyle = {
     fontWeight: 500,
     transition: "all 0.3s ease",
     border: "1px solid #d13046",
+    "@media (max-width:600px)": {
+      fontSize: "13px",
+      minWidth: "70px",
+      height: "35px",
+      minHeight: "35px",
+    },
   },
   "& .Mui-selected": {
     backgroundColor: "#d13046",
@@ -61,11 +67,31 @@ export const billFilterStyle = {
     "&.Mui-focused fieldset": {
       borderColor: "#d13046",
     },
+    "@media (max-width:600px)": {
+      fontSize: "13px",
+      height: "35px",
+    },
   },
   "& .MuiInputLabel-root": {
     color: "#d13046",
   },
   "& .MuiInputLabel-root.Mui-focused": {
     color: "#d13046",
+  },
+  "@media (max-width:600px)": {
+    minWidth: 120,
+  },
+};
+
+export const paginationStyle = {
+  "& .MuiTablePaginationActions-root": {
+    "@media (max-width:600px)": {
+      margin: "0",
+    },
+  },
+  "& .MuiInputBase-root": {
+    "@media (max-width:600px)": {
+      marginRight: "10px",
+    },
   },
 };

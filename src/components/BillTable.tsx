@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { fetchBills } from "../api/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
+  Box,
   Paper,
   Snackbar,
   Table,
@@ -22,7 +23,7 @@ import {
 } from "@mui/material";
 import BillModal from "./BillModal";
 import BillFavorite from "./BillFavorite";
-import { tableRowStyle } from "../style/styles";
+import { paginationStyle, tableRowStyle } from "../style/styles";
 import ErrorAlert from "../ui/ErrorAlert";
 import TableTabs from "../ui/TableTabs";
 import LoadingSpinner from "../ui/LoadingSpinner";
@@ -64,9 +65,7 @@ export default function BillTable() {
 
   // Showing the spinner icon until the bills are fetched
   if (loading) {
-    return (
-      <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
   }
 
   // If there was an error which occured while fetching the data, the error message will be shown
@@ -91,7 +90,7 @@ export default function BillTable() {
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
-    <Paper elevation={0} sx={{ background: "#fcfcfc" }}>
+    <Paper elevation={0} sx={{ background: "#fcfcfc", mb: 5 }}>
       <TableTabs
         bills={bills}
         favoriteBills={favoriteBills}
@@ -101,46 +100,52 @@ export default function BillTable() {
         setPage={setPage}
       />
       {displayedBills && displayedBills.length > 0 ? (
-        <TableContainer component={Paper} elevation={3}>
-          <Table sx={{ minWidth: 650 }} aria-label="bill table">
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontWeight: "bold" }}>Bill Number</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Type</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-                <TableCell sx={{ fontWeight: "bold" }}>Sponsor</TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                  Favorite
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {displayedBills
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((bill: Bill) => (
-                  <TableRow
-                    key={bill.billNo}
-                    sx={tableRowStyle}
-                    onClick={() => setSelectedBill(bill)}
-                  >
-                    <TableCell>{bill.billNo}</TableCell>
-                    <TableCell>{bill.billType}</TableCell>
-                    <TableCell>{bill.status}</TableCell>
-                    <TableCell>
-                      {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
-                    </TableCell>
-                    <TableCell align="center">
-                      <BillFavorite
-                        selectedBill={bill}
-                        setBills={setBills}
-                        setSnackbarOpen={setOpen}
-                        setMessage={setMessage}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
+        <TableContainer
+          component={Paper}
+          elevation={3}
+          sx={{ overflow: { xs: "hidden", md: "auto" } }}
+        >
+          <Box sx={{ overflow: { xs: "auto", md: "unset" } }}>
+            <Table sx={{ minWidth: 650 }} aria-label="bill table">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold" }}>Bill Number</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Type</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>Sponsor</TableCell>
+                  <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                    Favorite
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {displayedBills
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((bill: Bill) => (
+                    <TableRow
+                      key={bill.billNo}
+                      sx={tableRowStyle}
+                      onClick={() => setSelectedBill(bill)}
+                    >
+                      <TableCell>{bill.billNo}</TableCell>
+                      <TableCell>{bill.billType}</TableCell>
+                      <TableCell>{bill.status}</TableCell>
+                      <TableCell>
+                        {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
+                      </TableCell>
+                      <TableCell align="center">
+                        <BillFavorite
+                          selectedBill={bill}
+                          setBills={setBills}
+                          setSnackbarOpen={setOpen}
+                          setMessage={setMessage}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </Box>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -149,6 +154,7 @@ export default function BillTable() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={paginationStyle}
           />
           <BillModal
             selectedBill={selectedBill}
