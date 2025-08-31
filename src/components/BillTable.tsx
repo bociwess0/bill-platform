@@ -86,6 +86,7 @@ export default function BillTable() {
     setPage(0); //reset to first page
   };
 
+  // Based on which tab is selected we are showing all bills or only the favorites
   const displayedBills = tab === "favorites" ? favoriteBills : bills;
 
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
@@ -139,6 +140,10 @@ export default function BillTable() {
                           setBills={setBills}
                           setSnackbarOpen={setOpen}
                           setMessage={setMessage}
+                          page={page}
+                          setPage={setPage}
+                          rowsPerPage={rowsPerPage}
+                          tab={tab}
                         />
                       </TableCell>
                     </TableRow>

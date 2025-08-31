@@ -17,6 +17,10 @@ interface Props {
   setBills: React.Dispatch<React.SetStateAction<Bill[]>>; // Setter function to update the list of bills in parent state
   setSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>; // Setter function to show/hide snackbar
   setMessage: React.Dispatch<React.SetStateAction<string>>; // Setter function for snackbar message
+  page: number; // Current pagination page
+  setPage: React.Dispatch<React.SetStateAction<number>>; // Setter for page
+  rowsPerPage: number; // Number of rows per page
+  tab: string; // Number of rows per page
 }
 
 export default function BillFavorite({
@@ -24,6 +28,10 @@ export default function BillFavorite({
   setBills,
   setSnackbarOpen,
   setMessage,
+  page,
+  setPage,
+  rowsPerPage,
+  tab,
 }: Props) {
   // Handles toggling of favorite state for a given bill
   function handleToggleFavorite(
@@ -34,13 +42,26 @@ export default function BillFavorite({
     e.stopPropagation(); // Prevent the click from bubbling up (so it won’t trigger row selection)
 
     // Update the bills array: toggle favorite on the matching bill
-    setBills((oldBills) =>
-      oldBills.map((bill: Bill) =>
+    setBills((oldBills) => {
+      const updatedBills = oldBills.map((bill: Bill) =>
         bill.billNo === billNumber
           ? { ...bill, favorite: !bill.favorite }
           : bill,
-      ),
-    );
+      );
+
+      const favoriteBills = updatedBills.filter((bill) => bill.favorite); 
+
+      // Check if current page is empty after update
+      const startIndex = page * rowsPerPage;
+      const endIndex = startIndex + rowsPerPage;
+      const currentPageItems = favoriteBills.slice(startIndex, endIndex);
+      
+      if (tab === "favorites" && currentPageItems.length === 0 && page > 0) {
+        setPage(page - 1);
+      }
+
+      return updatedBills;
+    });
 
     // Mockick server call with console log (instead of real API call) and showing the snackbar message
     if (!isFavorite) {
@@ -79,7 +100,11 @@ export default function BillFavorite({
       }
     >
       {/* Render a filled or outlined heart depending on favorite state */}
-      {selectedBill.favorite ? <Favorite sx={{color: "#305bbf"}}/> : <FavoriteBorder sx={{color: "#305bbf"}} />}
+      {selectedBill.favorite ? (
+        <Favorite sx={{ color: "#305bbf" }} />
+      ) : (
+        <FavoriteBorder sx={{ color: "#305bbf" }} />
+      )}
     </IconButton>
   );
 }
