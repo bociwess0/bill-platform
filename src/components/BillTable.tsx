@@ -11,9 +11,10 @@ import { fetchBills } from "../api/DatabaseRequests/Requests";
 import { Bill } from "../Interfaces/Interface";
 import {
   Alert,
+  Box,
   CircularProgress,
-  IconButton,
   Paper,
+  Tab,
   Table,
   TableBody,
   TableCell,
@@ -21,8 +22,8 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tabs,
 } from "@mui/material";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import BillTypeFilter from "./BillTypeFilter";
 import BillModal from "./BillModal";
 import BillFavorite from "./BillFavorite";
@@ -38,6 +39,9 @@ export default function BillTable() {
 
   // State that stores selected bill on the bill (row) click
   const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
+
+  const [tab, setTab] = useState<string>("all");
+  const favoriteBills = bills.filter((bill) => bill.favorite);
 
   // Getting all the bills from database when the component mounts
   useEffect(() => {
@@ -87,10 +91,21 @@ export default function BillTable() {
     setPage(0); //reset to first page
   };
 
+  const displayedBills = tab === "favorites" ? favoriteBills : bills;
+
   // Rendering the table of bills (bill number, type, status, sponsor and favorite action button)
   return (
     <Paper elevation={0}>
-      <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+        <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)}>
+          <Tab label="All Bills" value="all" />
+          <Tab
+            label={`Favorites (${favoriteBills.length})`}
+            value="favorites"
+          />
+        </Tabs>
+        <BillTypeFilter bills={bills} setBills={setBills} setPage={setPage} />
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="bill table">
           <TableHead>
@@ -103,7 +118,7 @@ export default function BillTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {bills
+            {displayedBills
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((bill: Bill) => (
                 <TableRow
@@ -121,7 +136,7 @@ export default function BillTable() {
                     {bill.sponsors?.[0].sponsor?.as?.showAs || "/"}
                   </TableCell>
                   <TableCell>
-                    <BillFavorite bill={bill} setBills={setBills} />
+                    <BillFavorite selectedBill={bill} setBills={setBills} />
                   </TableCell>
                 </TableRow>
               ))}

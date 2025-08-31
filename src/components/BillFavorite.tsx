@@ -1,6 +1,6 @@
 /**
  * BillFavorite.tsx
- * 
+ *
  * This component renders a favorite (heart) button for a given bill.
  * Clicking the button toggles the bill's "favorite" state.
  * Updates are persisted to the parent bills state via `setBills`.
@@ -13,12 +13,14 @@ import { Bill } from "../Interfaces/Interface";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 interface Props {
-  bill: Bill; // Single bill object to render the favorite button for
+  selectedBill: Bill; // Single bill object to render the favorite button for
   setBills: React.Dispatch<React.SetStateAction<Bill[]>>; // Setter function to update the list of bills in parent state
 }
 
-export default function BillFavorite({ bill, setBills }: Props) {
-
+export default function BillFavorite({
+  selectedBill,
+  setBills,
+}: Props) {
   // Handles toggling of favorite state for a given bill
   function handleToggleFavorite(
     e: React.MouseEvent<HTMLButtonElement>,
@@ -51,11 +53,15 @@ export default function BillFavorite({ bill, setBills }: Props) {
   return (
     <IconButton
       onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-        handleToggleFavorite(e, bill.billNo, bill.favorite ? true : false)
+        handleToggleFavorite(
+          e,
+          selectedBill.billNo,
+          selectedBill.favorite ? true : false,
+        )
       }
     >
       {/* Render a filled or outlined heart depending on favorite state */}
-      {bill.favorite ? <Favorite /> : <FavoriteBorder />}
+      {selectedBill.favorite ? <Favorite /> : <FavoriteBorder />}
     </IconButton>
   );
 }
