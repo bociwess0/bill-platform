@@ -61,7 +61,7 @@ export default function BillTable() {
       }
     }
 
-    getBills();
+    getBills(); // Calling the function to fetch the bills
   }, []);
 
   // Showing the spinner icon until the bills are fetched

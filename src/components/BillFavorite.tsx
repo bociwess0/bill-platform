@@ -44,18 +44,24 @@ export default function BillFavorite({
 
     // Mockick server call with console log (instead of real API call) and showing the snackbar message
     if (!isFavorite) {
-      setMessage(
-        `Bill with number: ${billNumber} successfully added to favorites!`,
-      );
-      setSnackbarOpen(true);
+      setSnackbarOpen(false);
+      setTimeout(() => {
+        setMessage(
+          `Bill with number: ${billNumber} successfully added to favorites!`,
+        );
+        setSnackbarOpen(true);
+      }, 50);
       console.log(
         `Request to add bill with number: ${billNumber} into favorites is sent`,
       );
     } else {
-      setMessage(
-        `Bill with number: ${billNumber} successfully removed from favorites!`,
-      );
-      setSnackbarOpen(true);
+      setSnackbarOpen(false);
+      setTimeout(() => {
+        setMessage(
+          `Bill with number: ${billNumber} successfully removed from favorites!`,
+        );
+        setSnackbarOpen(true);
+      }, 50);
       console.log(
         `Request to remove bill with number: ${billNumber} from favorites is sent`,
       );
